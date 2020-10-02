@@ -1,3 +1,4 @@
+import math
 import random
 import string
 
@@ -107,8 +108,44 @@ def codeByCardanGrille(msg: str, n: int):
                     letter = random.choice(symbols)
                 codedGrl[i, j] = letter
 
-    # return [str(codedGrl), str(grille)]
     return [codedGrl, grille]
+
+
+def decodeByCardanGrille(codedMsg, key):
+    codedGrl = np.array(list(codedMsg), dtype='U1')
+    codedGrl = codedGrl.reshape((int(math.sqrt(codedGrl.shape[0])), -1))
+    grille = np.array(list(key), dtype='uint8')
+    grille = grille.reshape((int(math.sqrt(grille.shape[0])), -1))
+
+    size = grille.shape[0]
+    decodedMsg = ""
+
+    # Прямой обход (0)
+    for i in range(size):
+        for j in range(size):
+            if grille[i, j] == 1:
+                decodedMsg += codedGrl[i, j]
+
+    # Обход при повороте 90
+    for i in range(size):
+        for j in range(size):
+            if grille[j, size - i - 1] == 1:
+                decodedMsg += codedGrl[i, j]
+
+    # Обход при повороте 180
+    for i in range(size):
+        for j in range(size):
+            if grille[size - i - 1, size - j - 1] == 1:
+                decodedMsg += codedGrl[i, j]
+
+    # Обход при повороте 270
+    for i in range(size):
+        for j in range(size):
+            if grille[size - j - 1, i] == 1:
+                decodedMsg += codedGrl[i, j]
+
+    decodedMsg = decodedMsg.replace('_', ' ')
+    return decodedMsg
 
 
 if __name__ == '__main__':
@@ -117,7 +154,20 @@ if __name__ == '__main__':
     print("Введите размер малой решетки Кардано:")
     n = int(input())
 
-    codedMsg = codeByCardanGrille(msg, n)
+    codedRes = codeByCardanGrille(msg, n)
 
-    print(arrayToString(codedMsg[0]))
-    print(arrayToString(codedMsg[1]))
+    # print(codedRes[0])
+    # print(codedRes[1])
+
+    codedMsg = arrayToString(codedRes[0])
+    key = arrayToString(codedRes[1])
+
+    print("Закодированное сообщение:")
+    print(codedMsg)
+    print("Ключ:")
+    print(key)
+
+    decodedMsg = decodeByCardanGrille(codedMsg, key)
+
+    print("Раскодированное сообщение:")
+    print(decodedMsg)
