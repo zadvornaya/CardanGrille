@@ -5,11 +5,13 @@ import string
 import numpy as np
 
 
+# class CardanGrille():
+
 def arrayToString(array):
     return "".join(s for s in np.array_str(array) if s not in "[ ]'" and s.isprintable())
 
 
-def generateGrille(n: int):
+def _generateGrille(n: int):
     size = n * 2
     grille = np.zeros((size, size), dtype='uint8')
 
@@ -59,7 +61,7 @@ def generateGrille(n: int):
 
 def codeByCardanGrille(msg: str, n: int):
     msg = msg.replace(' ', '_')
-    grille = generateGrille(n)
+    grille = _generateGrille(n)
     codedGrl = np.zeros(grille.shape, 'U1')
     size = n * 2
     symbols = string.ascii_letters + string.digits + "_.,!?"
@@ -145,29 +147,28 @@ def decodeByCardanGrille(codedMsg, key):
                 decodedMsg += codedGrl[i, j]
 
     decodedMsg = decodedMsg.replace('_', ' ')
-    return decodedMsg
+    return [decodedMsg, size]
 
-
-if __name__ == '__main__':
-    print("Введите исходный текст:")
-    msg = input()
-    print("Введите размер малой решетки Кардано:")
-    n = int(input())
-
-    codedRes = codeByCardanGrille(msg, n)
-
-    # print(codedRes[0])
-    # print(codedRes[1])
-
-    codedMsg = arrayToString(codedRes[0])
-    key = arrayToString(codedRes[1])
-
-    print("Закодированное сообщение:")
-    print(codedMsg)
-    print("Ключ:")
-    print(key)
-
-    decodedMsg = decodeByCardanGrille(codedMsg, key)
-
-    print("Раскодированное сообщение:")
-    print(decodedMsg)
+# if __name__ == '__main__':
+#     print("Введите исходный текст:")
+#     msg = input()
+#     print("Введите размер малой решетки Кардано:")
+#     n = int(input())
+#
+#     codedRes = codeByCardanGrille(msg, n)
+#
+#     # print(codedRes[0])
+#     # print(codedRes[1])
+#
+#     codedMsg = arrayToString(codedRes[0])
+#     key = arrayToString(codedRes[1])
+#
+#     print("Закодированное сообщение:")
+#     print(codedMsg)
+#     print("Ключ:")
+#     print(key)
+#
+#     decodedMsg = decodeByCardanGrille(codedMsg, key)
+#
+#     print("Раскодированное сообщение:")
+#     print(decodedMsg)
