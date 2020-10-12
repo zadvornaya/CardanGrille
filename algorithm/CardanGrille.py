@@ -5,8 +5,6 @@ import string
 import numpy as np
 
 
-# class CardanGrille():
-
 def arrayToString(array):
     return "".join(s for s in np.array_str(array) if s not in "[ ]'" and s.isprintable())
 
@@ -148,27 +146,3 @@ def decodeByCardanGrille(codedMsg, key):
 
     decodedMsg = decodedMsg.replace('_', ' ')
     return [decodedMsg, size]
-
-# if __name__ == '__main__':
-#     print("Введите исходный текст:")
-#     msg = input()
-#     print("Введите размер малой решетки Кардано:")
-#     n = int(input())
-#
-#     codedRes = codeByCardanGrille(msg, n)
-#
-#     # print(codedRes[0])
-#     # print(codedRes[1])
-#
-#     codedMsg = arrayToString(codedRes[0])
-#     key = arrayToString(codedRes[1])
-#
-#     print("Закодированное сообщение:")
-#     print(codedMsg)
-#     print("Ключ:")
-#     print(key)
-#
-#     decodedMsg = decodeByCardanGrille(codedMsg, key)
-#
-#     print("Раскодированное сообщение:")
-#     print(decodedMsg)
